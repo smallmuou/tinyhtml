@@ -1,8 +1,8 @@
 #****************************************************************************
 #
-# Makefile for TinyXml test.
-# Lee Thomason
-# www.grinninglizard.com
+# Makefile for TinyHtml test.
+# Author: xuwf
+# lvyexuwenfa100@126.com
 #
 # This is a GNU make (gmake) makefile
 #****************************************************************************
