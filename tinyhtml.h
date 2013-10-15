@@ -49,7 +49,7 @@ public:
      *
      * -Support Multi-level use '/'
      *  like:
-     *  "album/song" that search "<album ...><book>...</book></album>"
+     *  "album/song" that search "<album ...><song>...</song></album>"
      */
     TiHtmlResult* Query( const char* query );
 
@@ -91,7 +91,7 @@ public:
      *
      * -Support Multi-level use '/'
      *  like:
-     *  "album/song" that search "<album ...><book>...</book></album>"
+     *  "album/song" that search "<album ...><song>...</song></album>"
      */
 
     TiHtmlResult* Query( const char* query );
