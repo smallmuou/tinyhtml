@@ -4,7 +4,7 @@ tinyhtml
 Expand tinyxml，support html
 Query like jQuery:
 
-+"album" that search <album...  (Note: direct child only)
++ "album" that search <album...  (Note: direct child only)
 + "#album" that search "id=album"
 + ".album" that search "class=album"
      
