@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>悦读FM - 倾听文字的声音（Beta）</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="keywords" content="悦读FM,阅读FM,有声阅读,有声书,NJ,播音,网络电台,美文,音乐,电影" />
+  <meta name="description" content="悦读FM提供有质量的有声阅读体验，阅读也可以像听歌一样简单方便" />
+  <script src="/static/js/ie6.js"></script>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.jplayer.min.js"></script>
+  <script src="/static/js/jplayer.playlist.min.js"></script>
+  <script src="/static/js/yuedu.js"></script>
+<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon"/>
+  <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24975844-2']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  </script>
+  <link href="/static/css/core.css" rel="stylesheet" />
+</head>
+
+
+
+<body>
+<div id="yuedu_player"></div>
+<div id="yuedu_container" class="jp-audio">
+  <div class="pop-content">
+    <div>
+      <h3>关于我们</h3>
+      <p> 悦读FM来自倾听文字的声音豆瓣小站。悦读FM旨在给每一个阅读爱好者提供一条收听有声书（文字）的途径，为每一个播音爱好者提供一个学习和展示的平台，同时也欢迎更多的主播加入我们。<br />我们热爱有质量的阅读，我们同样热爱播音，我们认为阅读可以像听歌一样简单方便。</p>
+      <p>小站所使用的图片和文字均来自互联网，如果我们的图片或者文字损害了您的利益，请告知我们，相关节目将在第一时间下架，也请您对此表示谅解。</p>
+      <p>联系我们：<br />主播、音频后期制作和文字作者加入我们请发邮件至：team(at)yuedu.fm<br />其他事务请发邮件至：talk(at)yuedu.fm</p>
+      <p>你还可以通过以下方式关注我们：<br />新浪微博：<a href="http://weibo.com/fmreading" target="_blank">http://weibo.com/fmreading</a><br />豆瓣小站：<a href="http://site.douban.com/reading/" target="_blank">http://site.douban.com/reading/</a><br />人人小站：<a href="http://zhan.renren.com/reading/" target="_blank">http://zhan.renren.com/reading/</a></p>
+    </div>
+  </div>
+
+  <div id="bg" class="jp-type-playlist">
+    <div id="wrapper">
+      <div id="header">
+        <h1 class="logo"><a href="">悦读FM - 倾听文字的声音(Beta)</a></h1>
+	<div class="player">
+          <div class="jp-gui jp-interface">
+            <ul class="jp-controls">
+              <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+              <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+            </ul>
+            <div class="jp-progress">
+              <div class="jp-seek-bar">
+                <div class="jp-play-bar"></div>
+              </div>
+            </div>
+            <div class="player-tc"></div>
+            <div class="jp-time-holder">
+              <div class="jp-current-time"></div>
+            </div>
+          </div>
+          <div class="jp-no-solution">
+            <span>Update Required</span>
+            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+          </div>
+        </div>
+      </div>
+      <div class="album">
+        <ul>
+          
+          
+          <li>
+            <a href="javascript:;" rel="339:0">悦读频道</a>
+            <em><img src="/static/images/music_opt.gif" /></em>
+          </li>
+          
+          <li>
+            <a href="javascript:;" rel="73:339">情感频道</a>
+            <em><img src="/static/images/music_opt.gif" /></em>
+          </li>
+          
+          <li>
+            <a href="javascript:;" rel="17:412">校园频道</a>
+            <em><img src="/static/images/music_opt.gif" /></em>
+          </li>
+          
+          <li>
+            <a href="javascript:;" rel="23:429">音乐频道</a>
+            <em><img src="/static/images/music_opt.gif" /></em>
+          </li>
+          
+          <li>
+            <a href="javascript:;" rel="71:452">Labs频道</a>
+            <em><img src="/static/images/music_opt.gif" /></em>
+          </li>
+        </ul>
+      </div>
+      <div class="text">
+        <div class="text-c"></div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="footer_c">
+        <a target="_blank" id="item_title"></a>
+        <div class="share_item">
+          <a class="share_renren share" id="share-renren" target="_blank">分享到人人网</a>
+          <a class="share_douban share" id="share-douban" target="_blank">分享到豆瓣</a>
+          <a class="share_sina share" id="share-sina" target="_blank">分享到新浪微博</a>
+          <em>分享到：</em>
+        </div>
+        <span></span>
+        <a target="_blank" id="item_author"><img src="" /></a>
+      </div>
+      <p>&copy; 2011 悦读 FM 京ICP备11039763号 <a href="javascript:void(0);" class="f-menu">关于我们</a></p>
+    </div>
+    <div class="item">
+      <div class="jp-playlist item-list">
+        <ul tabindex="2">
+          <li></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
