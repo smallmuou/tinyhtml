@@ -9,7 +9,7 @@ Query like jQuery:
 + ".album" that search "class=album"
      
 Also Support Multi-level use '/'
-+ "album/song" that search &lt album ...&gt &lt song &gt My Heart Will Go On!! &lt /song&gt&lt /album &gt
++ "album/song" that search &lt;album ...&gt;&lt;song &gt;My Heart Will Go On!! &lt;/song&gt;&lt;/album &gt;
 
 Usage
 --------
