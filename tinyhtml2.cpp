@@ -1,32 +1,34 @@
-/*
-Author: xuwf
-History:
-    2013-10-14 create.
+//
+// Author: xuwf
+// Contributor: idolpx
+// History:
+//     2013-10-14 create.
+//     2021-05-07 updated to tinyxml2 (https://github.com/idolpx/tinyhtml)
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any
+// damages arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any
+// purpose, including commercial applications, and to alter it and
+// redistribute it freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must
+// not claim that you wrote the original software. If you use this
+// software in a product, an acknowledgment in the product documentation
+// would be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such, and
+// must not be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source
+// distribution.
+//
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any
-damages arising from the use of this software.
-
-Permission is granted to anyone to use this software for any
-purpose, including commercial applications, and to alter it and
-redistribute it freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must
-not claim that you wrote the original software. If you use this
-software in a product, an acknowledgment in the product documentation
-would be appreciated but is not required.
-
-2. Altered source versions must be plainly marked as such, and
-must not be misrepresented as being the original software.
-
-3. This notice may not be removed or altered from any source
-distribution.
-*/
-
-#include "tinyhtml.h"
+#include "tinyhtml2.h"
 #include <string.h>
 #include <stdlib.h>
-#include "tinyxml.h"
+#include "tinyxml2.h"
 
 #define MIN_CAPACITY (64)
 
@@ -65,15 +67,17 @@ char* strtrim(char* str) {
     return str;
 }
 
+namespace tinyhtml2
+{
 
 ////////////////////////////////////////////////////////////////////////////////
-TiHtmlResult::TiHtmlResult() {
-    elements = (TiHtmlElement** )calloc(sizeof(TiHtmlElement* )*MIN_CAPACITY, 1);
+HTMLResult::HTMLResult() {
+    elements = (HTMLElement** )calloc(sizeof(HTMLElement* )*MIN_CAPACITY, 1);
     if (elements) capacity = MIN_CAPACITY;
     count = 0;
 }
 
-TiHtmlResult::~TiHtmlResult() {
+HTMLResult::~HTMLResult() {
     if (elements) {
 
         while (count > 0)  delete(elements[--count]);
@@ -85,11 +89,11 @@ TiHtmlResult::~TiHtmlResult() {
     }
 }
 
-bool TiHtmlResult::Append( TiHtmlElement* element ) {
+bool HTMLResult::Append( HTMLElement* element ) {
     if (capacity <= 0 || !element) return false;
 
     if (count >= capacity) {
-        elements = (TiHtmlElement** )realloc(elements, capacity*2*sizeof(TiHtmlElement* ));
+        elements = (HTMLElement** )realloc(elements, capacity*2*sizeof(HTMLElement* ));
         if (elements) capacity = capacity*2;
     }
     
@@ -97,7 +101,7 @@ bool TiHtmlResult::Append( TiHtmlElement* element ) {
     return true;
 }
 
-bool TiHtmlResult::Append( TiHtmlResult* result ) {
+bool HTMLResult::Append( HTMLResult* result ) {
     int count = result->Count();
     int i = 0;
     while (i < count) {
@@ -106,50 +110,50 @@ bool TiHtmlResult::Append( TiHtmlResult* result ) {
     return true;
 }
 
-void TiHtmlResult::Clear() {
+void HTMLResult::Clear() {
     if (elements) {
         while (count > 0) delete(elements[--count]);
 
-        memset(elements, 0, sizeof(TiHtmlElement* )*capacity);
+        memset(elements, 0, sizeof(HTMLElement* )*capacity);
         count = 0;
     }
 }
 
-int TiHtmlResult::Count() {
+int HTMLResult::Count() {
     return count;
 }
 
-TiHtmlElement* TiHtmlResult::Element(int index) {
+HTMLElement* HTMLResult::Element(int index) {
     return (index >= 0 && index < count)?elements[index]:NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-TiHtmlElement::TiHtmlElement( void* internal ) {
+HTMLElement::HTMLElement( void* internal ) {
     this->internal = internal;
 }
 
-TiHtmlElement::TiHtmlElement( TiHtmlElement* element ) {
+HTMLElement::HTMLElement( HTMLElement* element ) {
     this->internal = element->internal;
 }
 
-const char* TiHtmlElement::Attribute( const char* name ) const {
-    TiXmlElement* element = (TiXmlElement* )internal;
+const char* HTMLElement::Attribute( const char* name ) const {
+    tinyxml2::XMLElement* element = (tinyxml2::XMLElement* )internal;
     return element ? element->Attribute(name):NULL;
 }
 
-const char* TiHtmlElement::GetText() const {
-    TiXmlElement* element = (TiXmlElement* )internal;
+const char* HTMLElement::GetText() const {
+    tinyxml2::XMLElement* element = (tinyxml2::XMLElement* )internal;
     return element ? element->GetText():NULL;
 }
 
-TiHtmlResult* FindByTag( TiHtmlElement* htmlElement, const char* name,  bool deep ) {
-    TiXmlElement* element = (TiXmlElement* )htmlElement->internal;
-    TiXmlElement* node = NULL;
-    TiHtmlResult* result = new TiHtmlResult();
+HTMLResult* FindByTag( HTMLElement* htmlElement, const char* name,  bool deep ) {
+    tinyxml2::XMLElement* element = (tinyxml2::XMLElement* )htmlElement->internal;
+    tinyxml2::XMLElement* node = NULL;
+    HTMLResult* result = new HTMLResult();
 
     int arrayCount = 0;
     int arrayCapacity = 0;
-    TiXmlElement** array = (TiXmlElement** )calloc(sizeof(TiXmlElement* ), MIN_CAPACITY);
+    tinyxml2::XMLElement** array = (tinyxml2::XMLElement** )calloc(sizeof(tinyxml2::XMLElement* ), MIN_CAPACITY);
     if (array) arrayCapacity = MIN_CAPACITY;
     int i = 0;
 
@@ -158,12 +162,12 @@ TiHtmlResult* FindByTag( TiHtmlElement* htmlElement, const char* name,  bool dee
     do {
         element = array[i];
         TIXML_FOR_EACH(element, node, name) {
-            result->Append(new TiHtmlElement(node));
+            result->Append(new HTMLElement(node));
 
             //add to array
             if (deep && array) {
                 if (arrayCount >= arrayCapacity) {
-                    array = (TiXmlElement** )realloc(array, sizeof(TiXmlElement* )*arrayCapacity*2);
+                    array = (tinyxml2::XMLElement** )realloc(array, sizeof(tinyxml2::XMLElement* )*arrayCapacity*2);
                     if (array) arrayCapacity *= 2;
                 }
 
@@ -181,14 +185,14 @@ TiHtmlResult* FindByTag( TiHtmlElement* htmlElement, const char* name,  bool dee
     return result;
 }
 
-TiHtmlResult* FindByAttribute( TiHtmlElement* htmlElement, const char* name, const char* value, bool deep ) {
-    TiXmlElement* element = (TiXmlElement* )htmlElement->internal;
-    TiXmlElement* node = NULL;
-    TiHtmlResult* result = new TiHtmlResult();
+HTMLResult* FindByAttribute( HTMLElement* htmlElement, const char* name, const char* value, bool deep ) {
+    tinyxml2::XMLElement* element = (tinyxml2::XMLElement* )htmlElement->internal;
+    tinyxml2::XMLElement* node = NULL;
+    HTMLResult* result = new HTMLResult();
 
     int arrayCount = 0;
     int arrayCapacity = 0;
-    TiXmlElement** array = (TiXmlElement** )calloc(sizeof(TiXmlElement* ), MIN_CAPACITY);
+    tinyxml2::XMLElement** array = (tinyxml2::XMLElement** )calloc(sizeof(tinyxml2::XMLElement* ), MIN_CAPACITY);
     if (array) arrayCapacity = MIN_CAPACITY;
     int i = 0;
 
@@ -202,7 +206,7 @@ TiHtmlResult* FindByAttribute( TiHtmlElement* htmlElement, const char* name, con
             //add to array
             if (deep && array) {
                 if (arrayCount >= arrayCapacity) {
-                    array = (TiXmlElement** )realloc(array, sizeof(TiXmlElement* )*arrayCapacity*2);
+                    array = (tinyxml2::XMLElement** )realloc(array, sizeof(tinyxml2::XMLElement* )*arrayCapacity*2);
                     if (array) arrayCapacity *= 2;
                 }
 
@@ -212,7 +216,7 @@ TiHtmlResult* FindByAttribute( TiHtmlElement* htmlElement, const char* name, con
             }
 
             if (aValue && 0 == strcasecmp(aValue, value)) {
-                result->Append(new TiHtmlElement(node));
+                result->Append(new HTMLElement(node));
             }
         }
 
@@ -225,17 +229,17 @@ TiHtmlResult* FindByAttribute( TiHtmlElement* htmlElement, const char* name, con
 }
 
 
-TiHtmlResult* TiHtmlElement::Query( const char* query ) {
+HTMLResult* HTMLElement::Query( const char* query ) {
     if (!query) return NULL;
 
-    TiHtmlResult* results[2] = { new TiHtmlResult(), new TiHtmlResult()};
+    HTMLResult* results[2] = { new HTMLResult(), new HTMLResult()};
     char aQuery[512] = {0};
     strncpy(aQuery, query, sizeof(aQuery));
     const char* token = strtok(aQuery, "/");
 
     int index = 0;
     int aIndex = 0;
-    results[index]->Append(new TiHtmlElement(this));
+    results[index]->Append(new HTMLElement(this));
     while (token) {
         char name[256] = {0};
         strncpy(name, token, sizeof(name));
@@ -249,8 +253,8 @@ TiHtmlResult* TiHtmlElement::Query( const char* query ) {
         if (name[0]) {
             int count = results[index]->Count();
             for (int i = 0; i < count; i++) {
-                TiHtmlElement* element = results[index]->Element(i);
-                TiHtmlResult* aResult = NULL;
+                HTMLElement* element = results[index]->Element(i);
+                HTMLResult* aResult = NULL;
                 switch(name[0]) {
                     case '#':
                         aResult = FindByAttribute(element, "id", &name[1], true);
@@ -275,19 +279,19 @@ TiHtmlResult* TiHtmlElement::Query( const char* query ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-TiHtmlDocument::TiHtmlDocument() {
-    TiXmlDocument* doc = new TiXmlDocument();
+HTMLDocument::HTMLDocument() {
+    tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
     internal = doc;
 }
 
-bool TiHtmlDocument::ParseURL( const char * url ) {
-    TiXmlDocument* doc = (TiXmlDocument* )internal;
+bool HTMLDocument::ParseURL( const char * url ) {
+    tinyxml2::XMLDocument* doc = (tinyxml2::XMLDocument* )internal;
     return doc ? doc->LoadFile(url):false;
 }
 
-bool TiHtmlDocument::ParseData( const char * data ) {
+bool HTMLDocument::ParseData( const char * data ) {
     if (data){ 
-        TiXmlDocument* doc = (TiXmlDocument* )internal;
+        tinyxml2::XMLDocument* doc = (tinyxml2::XMLDocument* )internal;
         doc->Parse(data);
         if (doc->Error()) return false;
         return true;
@@ -296,16 +300,17 @@ bool TiHtmlDocument::ParseData( const char * data ) {
     return false;
 }
 
-TiHtmlDocument::~TiHtmlDocument() {
-    if (internal) delete((TiXmlDocument* )internal);
+HTMLDocument::~HTMLDocument() {
+    if (internal) delete((tinyxml2::XMLDocument* )internal);
 }
 
-TiHtmlResult* TiHtmlDocument::Query( const char* query ) {
-    TiXmlDocument* doc = (TiXmlDocument* )internal;
-    TiXmlElement* rootElement = doc ? doc ->RootElement():NULL;
-    TiHtmlElement* element = new TiHtmlElement(rootElement);
-    TiHtmlResult* result = element->Query(query);
+HTMLResult* HTMLDocument::Query( const char* query ) {
+    tinyxml2::XMLDocument* doc = (tinyxml2::XMLDocument* )internal;
+    tinyxml2::XMLElement* rootElement = doc ? doc ->RootElement():NULL;
+    HTMLElement* element = new HTMLElement(rootElement);
+    HTMLResult* result = element->Query(query);
     delete(element);
     return result;
 }
 
+} // tinyhtml2
