@@ -1,17 +1,17 @@
 /*
-   Example program for TinyHTML.
+   Example program for TinyHTML2
 */
 
-#include "tinyhtml.h"
+#include "tinyhtml2.h"
 #include <stdio.h>
 
 int main()
 {
-    TiHtmlDocument doc;
+    tinyhtml2::HTMLDocument doc;
     doc.ParseURL( "test.html" );
 
     /* Get Album */
-    TiHtmlResult* result = doc.Query(".album/ul/li/a");
+    tinyhtml2::HTMLResult* result = doc.Query(".album/ul/li/a");
     if (result) {
         printf("count=%d\n", result->Count());
         for (int ii = 0; ii < result->Count(); ii++) {

@@ -1,8 +1,11 @@
 #****************************************************************************
 #
-# Makefile for TinyHtml test.
+# Makefile for TinyHTML2 test.
 # Author: xuwf
-# lvyexuwenfa100@126.com
+# Contributor: idolpx
+# History:
+#    2013-10-14 create.
+#    2021-05-07 updated to tinyxml2 (https://github.com/idolpx/tinyhtml)
 #
 # This is a GNU make (gmake) makefile
 #****************************************************************************
@@ -90,12 +93,9 @@ all: ${OUTPUT}
 # Source files
 #****************************************************************************
 
-SRCS := tinyxml.cpp\
-		tinyxmlparser.cpp\
+SRCS := tinyxml2.cpp\
 		xmlexample.cpp\
-		tinyxmlerror.cpp\
-		tinystr.cpp\
-		tinyhtml.cpp
+		tinyhtml2.cpp
 
 # Add on the sources for libraries
 SRCS := ${SRCS}
@@ -120,18 +120,13 @@ ${OUTPUT}: ${OBJS}
 %.o : %.c
 	${CC} -c ${CFLAGS} ${INCS} $< -o $@
 
-dist:
-	bash makedistlinux
-
 clean:
 	-rm -f core ${OBJS} ${OUTPUT}
 
 depend:
 	#makedepend ${INCS} ${SRCS}
 
-tinyxml.o: tinyxml.h tinystr.h
-tinyxmlparser.o: tinyxml.h tinystr.h
-xmlexample.o: tinyxml.h tinystr.h
-tinyxmlerror.o: tinyxml.h tinystr.h
-tinyhtml.o:tinyhtml.h tinyxml.h
+tinyxml2.o: tinyxml2.h
+xmlexample.o: tinyxml2.h
+tinyhtml.o:tinyhtml2.h tinyxml2.h
 
