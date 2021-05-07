@@ -120,9 +120,6 @@ ${OUTPUT}: ${OBJS}
 %.o : %.c
 	${CC} -c ${CFLAGS} ${INCS} $< -o $@
 
-dist:
-	bash makedistlinux
-
 clean:
 	-rm -f core ${OBJS} ${OUTPUT}
 
